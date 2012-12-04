@@ -12,6 +12,5 @@
   "lint.jshint.bin": "hint",
   "phutil_libraries": {
       "disqus": "/usr/local/include/php/libdisqus/src"
-  },
-  "unit_engine": "DisqusUnitTestEngine"
+  }
 }
