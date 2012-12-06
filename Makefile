@@ -12,6 +12,18 @@ lint:
 	which pyflakes >/dev/null || pip install --use-mirrors pyflakes
 	arc lint
 
+check-index:
+	if [[ $$(git status --porcelain | wc -l) -ne 0 ]]; then exit 1; fi
+
+tag: check-index
+	git tag $$(python setup.py --version)
+	git push --tags
+
+publish: tag
+	make license
+	python setup.py sdist upload
+	git reset --hard HEAD
+
 test: clean
 	python setup.py nosetests
 
@@ -27,4 +39,4 @@ zookeeper:
 		cd zookeeper && \
 		ant
 
-.PHONY: clean license lint test test-matrix zookeeper
+.PHONY: check-index tag publish clean license lint test test-matrix zookeeper
