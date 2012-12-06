@@ -24,7 +24,10 @@ if 'nosetests' in sys.argv[1:]:
 
 setup(
     name='menagerie',
-    version='0.0.0',
+    version='0.1.0',
+    url='http://github.com/disqus/menagerie',
+    author='ted kaemming, disqus',
+    author_email='ted@disqus.com',
     packages=find_packages(exclude=('tests',)),
     install_requires=install_requires,
     setup_requires=setup_requires,

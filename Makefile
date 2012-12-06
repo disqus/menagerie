@@ -1,5 +1,8 @@
 ZOOKEEPER_VERSION=3.4.5
 
+check:
+	python setup.py check
+
 clean:
 	find . -name *.pyc -delete
 
@@ -39,4 +42,4 @@ zookeeper:
 		cd zookeeper && \
 		ant
 
-.PHONY: check-index tag publish clean license lint test test-matrix zookeeper
+.PHONY: check check-index tag publish clean license lint test test-matrix zookeeper
