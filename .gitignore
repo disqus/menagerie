@@ -1,0 +1,4 @@
+*.egg*
+*.py[co]
+.env
+.tox/

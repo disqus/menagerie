@@ -1,0 +1,30 @@
+language: python
+
+notifications:
+  email:
+    - ted@disqus.com
+
+python:
+    - "2.6"
+    - "2.7"
+
+before_install:
+    - sudo apt-get install -qq zookeeper
+
+env:
+    global:
+        - ZOOKEEPER_PATH=/usr/share/java
+    matrix:
+        - KAZOO='kazoo>=0.5,<0.6'
+        - KAZOO='kazoo>=0.6,<0.7'
+        - KAZOO='kazoo>=0.7,<0.8'
+        - KAZOO='kazoo>=0.8,<0.9'
+        - DJANGO='Django>=1.2,<1.3'
+        - DJANGO='Django>=1.3,<1.4'
+        - DJANGO='Django>=1.4,<1.5'
+
+install:
+    - pip install --use-mirrors $KAZOO
+    - pip install --use-mirrors $DJANGO
+
+script: make test
