@@ -13,7 +13,7 @@ install_requires = [
 ]
 
 tests_require = [
-    'exam==0.4.2',
+    'exam==0.6.2',
     'nose',
     'unittest2',
 ]

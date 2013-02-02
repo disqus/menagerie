@@ -10,7 +10,7 @@ import unittest2
 from django.conf import global_settings, settings
 from django.core.exceptions import ImproperlyConfigured
 from exam import Exam, before, fixture
-from kazoo.client import KazooClient
+from kazoo.client import KazooClient, KazooState
 from kazoo.testing.harness import KazooTestCase
 
 import menagerie
@@ -99,6 +99,28 @@ class ZooKeeperSettingsHolderTestCase(TestCase):
         self.client.set('/DEBUG', json.dumps(value))
         event.wait(self.TIMEOUT)
         self.assertEqual(self.holder.DEBUG, value)
+
+    def test_maintains_value_after_session_expiration(self):
+        attribute = 'DEBUG'
+
+        def state_watcher(state):
+            if state is KazooState.LOST:
+                self.assertTrue(getattr(self.holder, attribute))
+                state_watcher.disconnects += 1
+
+        state_watcher.disconnects = 0
+
+        self.client.add_listener(state_watcher)
+
+        with self.assertChanges(lambda: getattr(self.holder, attribute, False),
+                before=False, after=True):
+            event = self.get_child_node_event('/%s' % attribute)
+            self.client.create('/%s' % attribute, json.dumps(True))
+            event.wait(self.TIMEOUT)
+
+            self.expire_session()
+
+        self.assertEqual(state_watcher.disconnects, 1)
 
 
 class DjangoIntegrationTestCase(TestCase):
