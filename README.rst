@@ -5,6 +5,9 @@ menagerie
 
 A ZooKeeper-backed Django settings holder.
 
+.. image:: https://travis-ci.org/disqus/menagerie.png?branch=master
+   :target: https://travis-ci.org/disqus/menagerie
+
 Basic Usage
 -----------
 
